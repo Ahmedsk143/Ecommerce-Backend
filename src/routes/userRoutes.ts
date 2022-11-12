@@ -1,0 +1,10 @@
+import express from 'express';
+import user from '../controllers/userController';
+import AuthMiddleware from '../middlewares/authMiddleware';
+const userRoute = express.Router();
+userRoute.get('/', AuthMiddleware, user.getAllUsers);
+userRoute.post('/', user.registerNewUser);
+userRoute.get('/:id', user.getUserById);
+userRoute.delete('/:id', user.deleteUserById);
+userRoute.post('/signin', user.authenticateUser);
+export default userRoute;
