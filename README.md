@@ -13,7 +13,7 @@
 ## Package installation instructions
 
 1.  ```bash:
-    git clone https://github.com/Ahmedsk143/Storefront Backend
+    git clone https://github.com/Ahmedsk143/Storefront-Backend.git
     ```
 2.  ```bash:
      cd 'Storefront Backend'
