@@ -3,10 +3,10 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 export type Order = {
-    id: number;
+    id?: number;
     product_id: number;
     quantity: number;
-    user_id: number;
+    user_id?: number;
     active?: boolean;
 };
 class OrderModel {
@@ -21,15 +21,15 @@ class OrderModel {
             throw new Error(`Cannont get the orders ${err}`);
         }
     }
-    async addNew(order: Order): Promise<Order> {
+    async addNew(order: Order, userId: number): Promise<Order> {
         try {
             const conn = await DBConnection.connect();
             const sql =
-                'insert into orders(product_id, quantity, user_id, active) values($1, $2, $3, $4)';
+                'insert into orders(product_id, quantity, user_id, active) values($1, $2, $3, $4) RETURNING *';
             const values: unknown[] = [
                 order.product_id,
                 order.quantity,
-                order.user_id,
+                userId,
             ];
             if (order.active) {
                 values.push(order.active);
@@ -55,10 +55,10 @@ class OrderModel {
             throw new Error(`Cannont get the order ${err}`);
         }
     }
-    async getCurrentOrders(id: string): Promise<Order> {
+    async getCurrent(id: string): Promise<Order> {
         try {
             const conn = await DBConnection.connect();
-            const sql = 'select * from orders where id=$1 AND active=true';
+            const sql = 'select * from orders where user_id=$1 AND active=true';
             const values = [id];
             const result = await conn.query(sql, values);
             conn.release();
@@ -67,11 +67,24 @@ class OrderModel {
             throw new Error(`Cannont get the order ${err}`);
         }
     }
-    async getCompletedOrders(id: string): Promise<Order> {
+    async getCompleted(id: string): Promise<Order> {
         try {
             const conn = await DBConnection.connect();
-            const sql = 'select * from orders where id=$1 AND active=false';
+            const sql =
+                'select * from orders where user_id=$1 AND active=false';
             const values = [id];
+            const result = await conn.query(sql, values);
+            conn.release();
+            return result.rows[0];
+        } catch (err) {
+            throw new Error(`Cannont get the order ${err}`);
+        }
+    }
+    async updateStatus(id: string, status: boolean): Promise<Order> {
+        try {
+            const conn = await DBConnection.connect();
+            const sql = 'update orders set status=$1 where id=$2 returning *';
+            const values = [status, id];
             const result = await conn.query(sql, values);
             conn.release();
             return result.rows[0];

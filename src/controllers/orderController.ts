@@ -19,6 +19,24 @@ class orderController {
             res.status(400).json({ err });
         }
     };
+    static getCurrentOrders = async (req: Request, res: Response) => {
+        try {
+            const id = req.userId;
+            const result = await orderModel.getCurrent(id);
+            res.send(result);
+        } catch (err) {
+            res.status(400).json({ err });
+        }
+    };
+    static getCompletedOrders = async (req: Request, res: Response) => {
+        try {
+            const id = req.userId;
+            const result = await orderModel.getCompleted(id);
+            res.send(result);
+        } catch (err) {
+            res.status(400).json({ err });
+        }
+    };
     static deleteOrderById = async (req: Request, res: Response) => {
         try {
             const id = req.params.id;
@@ -30,11 +48,11 @@ class orderController {
     };
     static registerNewOrder = async (req: Request, res: Response) => {
         try {
-            const user: Order = req.body;
-            await orderModel.addNew(user);
+            const order: Order = req.body;
+            await orderModel.addNew(order, Number(req.userId));
             res.json({ message: 'Order has been created' });
         } catch (err) {
-            res.status(400).json({ err });
+            res.status(400).json({ Errpr: `Error has been occured${err}` });
         }
     };
 }

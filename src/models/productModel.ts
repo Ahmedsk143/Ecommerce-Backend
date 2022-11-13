@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 export type Product = {
-    id: number;
+    id?: number;
     name: string;
     price: number;
     userId: number;
@@ -26,7 +26,7 @@ class UserModel {
         try {
             const conn = await DBConnection.connect();
             const sql =
-                'insert into products(name, price, user_id, category) values($1, $2, $3, $4)';
+                'insert into products(name, price, user_id, category) values($1, $2, $3, $4) RETURNING *';
             const values = [product.name, product.price, product.userId];
             if (product.category) {
                 values.push(product.category);
@@ -47,7 +47,13 @@ class UserModel {
             const values = [id];
             const result = await conn.query(sql, values);
             conn.release();
-            return result.rows[0];
+            const returnedProdcut: Product = {
+                id: result.rows[0].id,
+                name: result.rows[0].name,
+                price: result.rows[0].price,
+                userId: result.rows[0].user_id,
+            };
+            return returnedProdcut;
         } catch (err) {
             throw new Error(`Cannont get the product ${err}`);
         }
@@ -55,11 +61,17 @@ class UserModel {
     async deleteById(id: string): Promise<Product> {
         try {
             const conn = await DBConnection.connect();
-            const sql = 'delete from products where id = $1 ';
+            const sql = 'delete from products where id = $1 returning * ';
             const values = [id];
             const result = await conn.query(sql, values);
             conn.release();
-            return result.rows[0];
+            const returnedProdcut: Product = {
+                id: result.rows[0].id,
+                name: result.rows[0].name,
+                price: result.rows[0].price,
+                userId: result.rows[0].user_id,
+            };
+            return returnedProdcut;
         } catch (err) {
             throw new Error(`Cannont delete the product ${err}`);
         }

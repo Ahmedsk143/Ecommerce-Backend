@@ -22,8 +22,14 @@ class productController {
     static deleteProductById = async (req: Request, res: Response) => {
         try {
             const id = req.params.id;
-            await productModel.deleteById(id);
-            res.json({ message: 'Product has been deleted' });
+            const result = await productModel.getById(id);
+
+            if (result.userId === Number(req.userId)) {
+                await productModel.deleteById(id);
+                res.json({ message: 'Product has been deleted' });
+            } else {
+                res.status(401).send('Unautorized');
+            }
         } catch (err) {
             res.status(400).json({ error: `An error occured ${err}` });
         }
@@ -31,7 +37,6 @@ class productController {
     static registerNewProduct = async (req: Request, res: Response) => {
         try {
             const product: Product = req.body;
-            console.log(req.userId);
             product.userId = Number(req.userId);
             await productModel.addNew(product);
             res.json({ message: 'Product has been created' });

@@ -10,14 +10,14 @@
     "test": {
         "driver": "pg",
         "host": "localhost",
-        "database": "ecommercedb-test",
+        "database": "ecommercedb_test",
         "user": "postgres",
         "password": "123"
     },
     "prod": {
         "driver": "pg",
         "host": "localhost",
-        "database": "ecommercedb-prod",
+        "database": "ecommercedb_prod",
         "user": "postgres",
         "password": "123"
     }

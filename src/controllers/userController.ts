@@ -19,6 +19,15 @@ class userController {
             res.status(400).json({ err });
         }
     };
+    static getUserData = async (req: Request, res: Response) => {
+        try {
+            const id = req.userId;
+            const result = await UserModel.getById(id);
+            res.send(result);
+        } catch (err) {
+            res.status(400).json({ error: `An error occured ${err}` });
+        }
+    };
     static deleteUserById = async (req: Request, res: Response) => {
         try {
             const id = req.params.id;
@@ -32,7 +41,9 @@ class userController {
         try {
             const user: User = req.body;
             await UserModel.addNew(user);
-            res.json({ message: 'User has been created, Please signin' });
+            res.status(201).json({
+                message: 'User has been created, Please signin',
+            });
         } catch (err) {
             console.log(err);
             res.status(400).json({ error: `An error occured: ${err}` });
@@ -44,7 +55,6 @@ class userController {
                 req.body.email,
                 req.body.password
             );
-            // console.log(authenicated);
             if (authenicated) {
                 const tokenData = {
                     id: authenicated.id,
@@ -52,15 +62,13 @@ class userController {
                     lastName: authenicated.lastName,
                     email: authenicated.email,
                 };
-                console.log(tokenData);
 
                 const token = jwt.sign(
                     tokenData,
                     process.env.PRIVATE_KEY as string
                 );
-                res.json({ token });
-            } else
-                res.status(201).json({ message: 'Wrong username or password' });
+                res.status(200).json({ token });
+            } else res.status(400).json({ message: 'Wrong email or password' });
         } catch (err) {
             res.status(400).json({ err });
         }

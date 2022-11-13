@@ -17,5 +17,4 @@ const AuthMiddleware = (
     }
     next();
 };
-
 export default AuthMiddleware;

@@ -1,55 +1,55 @@
-# It is an opinionated starter code for a node.js express app
+# Getting Started
 
-## It is configured with the following
+## Database Configuration
 
-1. Well folder structure that follows MVC pattern and Typescript
-2. Basic Authentication functions
-3. Jasmine for unit testing `npm run test`
-4. Basic CRUD operations using the PostgreSQL database
-5. Migrations using db-migrate
-6. Dotenv package
-7. Prettier for formatting script: `npm run format`.
-8. Eslint for linting script: `npm run lint`
+1.  [Download PostgreSQL database](https://www.postgresql.org/download/) based on your operating system
+2.  Open the SQL Shell and connect to the
+    Server **localhost** and Database **Postgres** on
+    Port **5432** using your **Username** and **Password**
+3.  ```bash:
+     CREATE DATABASE ecommercedb;
+    ```
 
-## A preview of the package.json file for a full list of dependencies and scripts
+## Package installation instructions
+
+1.  ```bash:
+    git clone https://github.com/Ahmedsk143/Commerce Backend
+    ```
+2.  ```bash:
+     cd 'ECommerce Backend'
+    ```
+3.  ```bash:
+    npm install
+    ```
+4.  ```bash:
+    npm run start
+    ```
+    Now the server is up and running successfully on port 5555
+
+# Testing the database actions
+
+```bash:
+    npm run testdb
+```
+
+# Testing the endpoints
+
+```bash:
+    npm run test
+```
+
+# Environment Variables
 
 ```javascript:
-
-"scripts": {
-        "build": "npx tsc",
-        "start": "tsc-watch --onSuccess \"node ./dist/server.js\"",
-        "start:prod": "npm run build && nodemon ./dist/server.js",
-        "test": "SET ENV=test && db-migrate --env test up && npm run build && npx jasmine && db-migrate db:drop test",
-        "lint": "eslint --ignore-path .eslintignore --ext .ts .",
-        "format": "prettier --ignore-path .prettierignore --write \"**/*.ts\""
-    },
-    "devDependencies": {
-        "@types/bcrypt": "^5.0.0",
-        "@types/express": "^4.17.14",
-        "@types/jasmine": "^4.3.0",
-        "@types/node": "^18.11.0",
-        "@types/pg": "^8.6.5",
-        "@typescript-eslint/eslint-plugin": "^5.41.0",
-        "@typescript-eslint/parser": "^5.41.0",
-        "@types/jsonwebtoken": "^8.5.9",
-        "bcrypt": "^5.1.0",
-        "db-migrate": "^0.11.13",
-        "db-migrate-pg": "^1.2.2",
-        "eslint": "^8.26.0",
-        "eslint-config-prettier": "^8.5.0",
-        "eslint-plugin-prettier": "^4.2.1",
-        "jasmine-spec-reporter": "^7.0.0",
-        "nodemon": "^2.0.20",
-        "supertest": "^6.3.0",
-        "ts-node": "^10.9.1",
-        "tsc-watch": "^5.0.3",
-        "typescript": "^4.8.4"
-    },
-    "dependencies": {
-        "dotenv": "^16.0.3",
-        "express": "^4.18.2",
-        "jasmine": "^4.4.0",
-        "jsonwebtoken": "^8.5.1",
-        "pg": "^8.8.0"
-    }
+DB_HOST = "localhost"
+DB_NAME_DEV = "ecommercedb"
+DB_NAME_TEST = "ecommercedb_test"
+DB_NAME_PROD = "ecommercedb_prod"
+DB_PORT = 5432
+DB_USERNAME = "postgres"
+DB_PASSWORD = ""
+ENV = "dev"
+BCRYPT_PASSWORD = "!@#$%"
+SALT_ROUNDS = 10
+PRIVATE_KEY = "!@#$%^"
 ```

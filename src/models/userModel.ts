@@ -6,7 +6,7 @@ const pepper = process.env.BCRYPT_PASSWORD;
 const salt = parseInt(process.env.SALT_ROUNDS as string);
 
 export type User = {
-    id: number;
+    id?: number;
     firstName: string;
     lastName: string;
     email: string;
@@ -28,7 +28,7 @@ class UserModel {
         try {
             const conn = await DBConnection.connect();
             const sql =
-                'insert into users(first_name, last_name,email, password) values($1, $2, $3, $4)';
+                'insert into users(first_name, last_name,email, password) values($1, $2, $3, $4) RETURNING *';
             const hash = bcrypt.hashSync(user.password + pepper, salt);
             const values = [user.firstName, user.lastName, user.email, hash];
             const result = await conn.query(sql, values);
@@ -45,6 +45,7 @@ class UserModel {
             const values = [id];
             const result = await conn.query(sql, values);
             conn.release();
+            delete result.rows[0].password;
             return result.rows[0];
         } catch (err) {
             throw new Error(`Cannont get the User ${err}`);
