@@ -13,10 +13,10 @@
 ## Package installation instructions
 
 1.  ```bash:
-    git clone https://github.com/Ahmedsk143/Commerce Backend
+    git clone https://github.com/Ahmedsk143/Storefront-Backend.git
     ```
 2.  ```bash:
-     cd 'ECommerce Backend'
+     cd 'Storefront Backend'
     ```
 3.  ```bash:
     npm install
