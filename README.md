@@ -22,17 +22,14 @@
     npm install
     ```
 4.  ```bash:
+    db-migrate up
+    ```
+5.  ```bash:
     npm run start
     ```
-    Now the server is up and running successfully on port 5555
+    Now the server is up and running successfully on port 5555 and the database on port 5432
 
-# Testing the database actions
-
-```bash:
-    npm run testdb
-```
-
-# Testing the endpoints
+# Testing the database actions and endpoints
 
 ```bash:
     npm run test

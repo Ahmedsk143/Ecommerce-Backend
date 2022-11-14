@@ -9,7 +9,6 @@ describe('Product Database actions', () => {
             name: 'Fan Heater',
             price: 999,
             category: 'Heaters',
-            userId: 1,
         };
         const result = await productModel.addNew(prodcut);
         expect(result.name).toEqual('Fan Heater');
@@ -21,7 +20,6 @@ describe('Product Database actions', () => {
         const result = await productModel.getAll();
         expect(result).toHaveSize;
     });
-
     it('getById method should be defined', async () => {
         expect(productModel.getById).toBeDefined();
     });

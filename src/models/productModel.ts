@@ -7,7 +7,6 @@ export type Product = {
     id?: number;
     name: string;
     price: number;
-    userId: number;
     category?: string;
 };
 class UserModel {
@@ -26,8 +25,8 @@ class UserModel {
         try {
             const conn = await DBConnection.connect();
             const sql =
-                'insert into products(name, price, user_id, category) values($1, $2, $3, $4) RETURNING *';
-            const values = [product.name, product.price, product.userId];
+                'insert into products(name, price, category) values($1, $2, $3) RETURNING *';
+            const values = [product.name, product.price];
             if (product.category) {
                 values.push(product.category);
             } else {
@@ -51,7 +50,6 @@ class UserModel {
                 id: result.rows[0].id,
                 name: result.rows[0].name,
                 price: result.rows[0].price,
-                userId: result.rows[0].user_id,
             };
             return returnedProdcut;
         } catch (err) {
@@ -69,7 +67,6 @@ class UserModel {
                 id: result.rows[0].id,
                 name: result.rows[0].name,
                 price: result.rows[0].price,
-                userId: result.rows[0].user_id,
             };
             return returnedProdcut;
         } catch (err) {
