@@ -31,7 +31,6 @@ These are the notes from a meeting with the frontend developer that describe wha
 -   Current Order by user [token required]: `'/api/v1/orders/current' [GET] (token)`
 -   Completed Orders by user [token required]: `'/api/v1/orders/completed' [GET] (token)`
 -   Active Orders by user [token required]: `'/api/v1/orders/current' [GET] (token)`
--   [ADDED] Update order's status [token required]: `'orders?status=<status>&orderId=<order id> [PUT] (token)`
 -   [ADDED] Delete [token required]: `'orders/:id [DELETE] (token)`
 
 # Database Schema
@@ -59,9 +58,16 @@ These are the notes from a meeting with the frontend developer that describe wha
 ## Order
 
 -   id: integer [Primary Key]
--   product_id: integer [Foreign Key]
--   quantity: integer [default: 1]
--   user_id: integer [Foreign Key]
 -   active: boolean [default: true]
+-   user_id: integer [Foreign Key]
 
-![](https://i.imgur.com/KkaoxjF.png)
+![](https://i.imgur.com/lCeOYmQ.png)
+
+## Order Prodcuts
+
+-   id: integer [Primary Key]
+-   quantity: integer [default: 1]
+-   product_id: integer [Foreign Key]
+-   user_id: integer [Foreign Key]
+
+![](https://i.imgur.com/YbwdxAN.png)
