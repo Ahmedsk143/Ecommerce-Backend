@@ -16,7 +16,7 @@
     git clone https://github.com/Ahmedsk143/Storefront-Backend.git
     ```
 2.  ```bash:
-     cd 'Storefront Backend'
+     cd Storefront-Backend
     ```
 3.  ```bash:
     npm install
